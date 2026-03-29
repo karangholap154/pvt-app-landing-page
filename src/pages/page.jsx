@@ -519,9 +519,23 @@ export default function PrivateAcademyHero() {
   const [phoneScale, setPhoneScale] = useState(1);
   const [showPopup, setShowPopup] = useState(false);
 
+  // Calculate countdown
+  const target = new Date("2026-04-01T00:00:00");
+  const now = new Date();
+  const diff = Math.max(0, target - now);
+  const isTimeUp = diff === 0;
+
   const handleDownloadClick = (e) => {
     e.preventDefault();
     setShowPopup(true);
+  };
+
+  const handleAPKDownload = (e) => {
+    if (!isTimeUp) {
+      e.preventDefault();
+      setShowPopup(true);
+    }
+    // If time is up, allow default download behavior
   };
 
   useEffect(() => {
@@ -707,78 +721,139 @@ export default function PrivateAcademyHero() {
 
             {/* CTA Buttons */}
             <div className="flex flex-wrap gap-3 sm:gap-4 mb-10 sm:mb-12 justify-center lg:justify-start">
-              {/* Play Store */}
-              <a
-                href="https://play.google.com/store"
-                target="_blank"
-                rel="noreferrer"
-                onClick={handleDownloadClick}
-                className="flex items-center gap-2.5 sm:gap-3 px-4 sm:px-5 py-3 sm:py-3.5 rounded-2xl transition-all hover:-translate-y-0.5 hover:shadow-2xl"
-                style={{
-                  background: "#FFD600",
-                  boxShadow: "0 8px 32px rgba(255,214,0,0.35)",
-                }}
-              >
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
-                  <path
-                    d="M3.18 1.27C2.8 1.5 2.55 1.9 2.55 2.42v19.16c0 .52.25.92.63 1.15l.1.06 10.73-10.73v-.25L3.28 1.21l-.1.06z"
-                    fill="#0e0e14"
-                  />
-                  <path
-                    d="M17.41 15.1l-3.57-3.58v-.25l3.57-3.57.08.04 4.23 2.4c1.21.69 1.21 1.81 0 2.5l-4.23 2.4-.08.06z"
-                    fill="#0e0e14"
-                    opacity="0.8"
-                  />
-                  <path
-                    d="M17.49 15.04L13.91 11.5 3.18 22.23c.4.42 1.05.47 1.78.05l12.53-7.24"
-                    fill="#0e0e14"
-                    opacity="0.6"
-                  />
-                  <path
-                    d="M17.49 8.96L4.96 1.72C4.23 1.3 3.58 1.35 3.18 1.77l10.73 10.73 3.58-3.54z"
-                    fill="#0e0e14"
-                    opacity="0.6"
-                  />
-                </svg>
-                <div>
-                  <p
-                    className="text-[9px] font-semibold leading-none mb-0.5"
-                    style={{ color: "rgba(14,14,20,0.6)" }}
-                  >
-                    GET IT ON
-                  </p>
-                  <p
-                    className="text-xs sm:text-sm font-extrabold leading-none"
-                    style={{ color: "#0e0e14" }}
-                  >
-                    Google Play
-                  </p>
+              {/* Play Store or Coming Soon */}
+              {isTimeUp ? (
+                <div
+                  className="flex items-center gap-2.5 sm:gap-3 px-4 sm:px-5 py-3 sm:py-3.5 rounded-2xl opacity-60"
+                  style={{
+                    background: "#FFD600",
+                    boxShadow: "0 8px 32px rgba(255,214,0,0.35)",
+                  }}
+                >
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+                    <path
+                      d="M3.18 1.27C2.8 1.5 2.55 1.9 2.55 2.42v19.16c0 .52.25.92.63 1.15l.1.06 10.73-10.73v-.25L3.28 1.21l-.1.06z"
+                      fill="#0e0e14"
+                    />
+                    <path
+                      d="M17.41 15.1l-3.57-3.58v-.25l3.57-3.57.08.04 4.23 2.4c1.21.69 1.21 1.81 0 2.5l-4.23 2.4-.08.06z"
+                      fill="#0e0e14"
+                      opacity="0.8"
+                    />
+                    <path
+                      d="M17.49 15.04L13.91 11.5 3.18 22.23c.4.42 1.05.47 1.78.05l12.53-7.24"
+                      fill="#0e0e14"
+                      opacity="0.6"
+                    />
+                    <path
+                      d="M17.49 8.96L4.96 1.72C4.23 1.3 3.58 1.35 3.18 1.77l10.73 10.73 3.58-3.54z"
+                      fill="#0e0e14"
+                      opacity="0.6"
+                    />
+                  </svg>
+                  <div>
+                    <p
+                      className="text-[9px] font-semibold leading-none mb-0.5"
+                      style={{ color: "rgba(14,14,20,0.6)" }}
+                    >
+                      COMING SOON
+                    </p>
+                    <p
+                      className="text-xs sm:text-sm font-extrabold leading-none"
+                      style={{ color: "#0e0e14" }}
+                    >
+                      Google Play
+                    </p>
+                  </div>
                 </div>
-              </a>
+              ) : (
+                <a
+                  href="https://play.google.com/store"
+                  target="_blank"
+                  rel="noreferrer"
+                  onClick={handleDownloadClick}
+                  className="flex items-center gap-2.5 sm:gap-3 px-4 sm:px-5 py-3 sm:py-3.5 rounded-2xl transition-all hover:-translate-y-0.5 hover:shadow-2xl"
+                  style={{
+                    background: "#FFD600",
+                    boxShadow: "0 8px 32px rgba(255,214,0,0.35)",
+                  }}
+                >
+                  <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+                    <path
+                      d="M3.18 1.27C2.8 1.5 2.55 1.9 2.55 2.42v19.16c0 .52.25.92.63 1.15l.1.06 10.73-10.73v-.25L3.28 1.21l-.1.06z"
+                      fill="#0e0e14"
+                    />
+                    <path
+                      d="M17.41 15.1l-3.57-3.58v-.25l3.57-3.57.08.04 4.23 2.4c1.21.69 1.21 1.81 0 2.5l-4.23 2.4-.08.06z"
+                      fill="#0e0e14"
+                      opacity="0.8"
+                    />
+                    <path
+                      d="M17.49 15.04L13.91 11.5 3.18 22.23c.4.42 1.05.47 1.78.05l12.53-7.24"
+                      fill="#0e0e14"
+                      opacity="0.6"
+                    />
+                    <path
+                      d="M17.49 8.96L4.96 1.72C4.23 1.3 3.58 1.35 3.18 1.77l10.73 10.73 3.58-3.54z"
+                      fill="#0e0e14"
+                      opacity="0.6"
+                    />
+                  </svg>
+                  <div>
+                    <p
+                      className="text-[9px] font-semibold leading-none mb-0.5"
+                      style={{ color: "rgba(14,14,20,0.6)" }}
+                    >
+                      GET IT ON
+                    </p>
+                    <p
+                      className="text-xs sm:text-sm font-extrabold leading-none"
+                      style={{ color: "#0e0e14" }}
+                    >
+                      Google Play
+                    </p>
+                  </div>
+                </a>
+              )}
 
               {/* Download APK */}
               <a
-                href="https://privateacademy.in"
-                target="_blank"
-                rel="noreferrer"
-                onClick={handleDownloadClick}
-                className="flex items-center gap-2.5 sm:gap-3 px-4 sm:px-5 py-3 sm:py-3.5 rounded-2xl transition-all hover:-translate-y-0.5 group"
+                href={
+                  isTimeUp
+                    ? "/path/to/privateacademy.apk"
+                    : "https://privateacademy.in"
+                }
+                target={isTimeUp ? undefined : "_blank"}
+                rel={isTimeUp ? undefined : "noreferrer"}
+                download={isTimeUp ? "privateacademy.apk" : undefined}
+                onClick={handleAPKDownload}
+                className={`flex items-center gap-2.5 sm:gap-3 px-4 sm:px-5 py-3 sm:py-3.5 rounded-2xl transition-all group ${
+                  isTimeUp
+                    ? "hover:-translate-y-0.5 hover:shadow-lg"
+                    : "hover:-translate-y-0.5"
+                }`}
                 style={{
-                  background: "rgba(255,255,255,0.06)",
-                  border: "1px solid rgba(255,255,255,0.12)",
-                  color: "white",
+                  background: isTimeUp
+                    ? "rgba(255,214,0,0.15)"
+                    : "rgba(255,255,255,0.06)",
+                  border: `1px solid ${isTimeUp ? "rgba(255,214,0,0.3)" : "rgba(255,255,255,0.12)"}`,
+                  color: isTimeUp ? "#FFD600" : "white",
                 }}
               >
                 <div
                   className="w-8 sm:w-9 h-8 sm:h-9 rounded-xl flex items-center justify-center shrink-0 transition-all group-hover:scale-110"
-                  style={{ background: "rgba(255,214,0,0.12)" }}
+                  style={{
+                    background: isTimeUp
+                      ? "rgba(255,214,0,0.25)"
+                      : "rgba(255,214,0,0.12)",
+                  }}
                 >
                   <svg
                     width="16"
                     height="16"
                     viewBox="0 0 24 24"
                     fill="none"
-                    stroke="#FFD600"
+                    stroke={isTimeUp ? "#FFD600" : "#FFD600"}
                     strokeWidth="2.2"
                     strokeLinecap="round"
                     strokeLinejoin="round"
@@ -791,11 +866,18 @@ export default function PrivateAcademyHero() {
                 <div>
                   <p
                     className="text-[9px] font-semibold leading-none mb-0.5"
-                    style={{ color: "rgba(255,255,255,0.4)" }}
+                    style={{
+                      color: isTimeUp
+                        ? "rgba(255,214,0,0.7)"
+                        : "rgba(255,255,255,0.4)",
+                    }}
                   >
-                    DIRECT
+                    {isTimeUp ? "READY" : "DIRECT"}
                   </p>
-                  <p className="text-xs sm:text-sm font-extrabold leading-none">
+                  <p
+                    className="text-xs sm:text-sm font-extrabold leading-none"
+                    style={{ color: isTimeUp ? "#FFD600" : "white" }}
+                  >
                     Download APK
                   </p>
                 </div>
